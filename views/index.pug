@@ -2,3 +2,6 @@ extends layout
 
 block content
     h1 Articles
+    ul
+        each article in articles
+            li= article.title
