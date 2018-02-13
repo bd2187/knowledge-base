@@ -6,8 +6,17 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Routes
 app.get('/', function(req, res) {
-    res.end('hello');
+    res.render('index', {
+        title: 'Articles'
+    });
+});
+
+app.get('/article/add', function(req, res) {
+    res.render('add_article', {
+        title: 'Add Article'
+    });
 });
 
 const port = 3000;
