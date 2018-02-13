@@ -2,6 +2,14 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
+// Connect to DB
+const mongoose = require('mongoose');
+const DATABASE = require('./constants').DATABASE;
+mongoose.connect(DATABASE);
+const db = mongoose.connection;
+db.on('error', (err) => { console.log(err) });
+db.once('open', () => { console.log('DB connected') });
+
 // Set up View Engine Middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
