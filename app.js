@@ -10,6 +10,9 @@ const db = mongoose.connection;
 db.on('error', (err) => { console.log(err) });
 db.once('open', () => { console.log('DB connected') });
 
+// Bring in Models
+const Article = require('./models/article');
+
 // Set up View Engine Middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -17,31 +20,17 @@ app.set('view engine', 'pug');
 // Routes
 app.get('/', function(req, res) {
 
-    var articles = [
-        {
-            id: 1,
-            title: 'Article 1',
-            author: 'John Doe',
-            body: 'This is article 1'
-        },
-        {
-            id: 2,
-            title: 'Article 2',
-            author: 'Jane Doe',
-            body: 'This is article 2'
-        },
-        {
-            id: 3,
-            title: 'Article 3',
-            author: 'Bob Doe',
-            body: 'This is article 3'
-        },
-    ];
-
-    res.render('index', {
-        title: 'Articles',
-        articles
+    Article.find({}, function(err, response) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('index', {
+                title: 'Articles',
+                articles: response
+            });
+        }
     });
+
 });
 
 app.get('/article/add', function(req, res) {
