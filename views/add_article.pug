@@ -1,4 +1,15 @@
 extends layout.pug
 
 block content
-    h1 Add Article
+    h1 #{title}
+    form(method="post", action="/article/add")
+        #form-group
+            label Title:
+            input.form-control(name="title", type="text" required)
+        #form-group
+            label Author:
+            input.form-control(name="author", type="text" required)
+        #form-group
+            label Body:
+            textarea.form-control(name="body", type="text" required)
+        input.btn.btn-primary(type="submit" value="Submit")

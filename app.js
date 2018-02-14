@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 // Connect to DB
 const mongoose = require('mongoose');
@@ -12,6 +13,10 @@ db.once('open', () => { console.log('DB connected') });
 
 // Bring in Models
 const Article = require('./models/article');
+
+// Body Parser Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set up View Engine Middleware
 app.set('views', path.join(__dirname, 'views'));
@@ -30,12 +35,24 @@ app.get('/', function(req, res) {
             });
         }
     });
-
 });
 
 app.get('/article/add', function(req, res) {
     res.render('add_article', {
         title: 'Add Article'
+    });
+});
+
+app.post('/article/add', function(req, res) {
+
+    var newArticle = new Article({
+        title: req.body.title,
+        author: req.body.author,
+        body: req.body.body
+    });
+
+    newArticle.save(function(err, response) {
+        return (err) ? console.log(err) : res.redirect('/');        
     });
 });
 
