@@ -59,6 +59,21 @@ app.post('/article/add', function(req, res) {
     });
 });
 
+app.get('/article/:id', function(req, res) {
+    Article.findById(req.params.id, function(err, article) {
+        if (err) {
+            console.log(err);
+        } else {            
+            res.render('article', {
+                title: article.title,
+                author: article.author,
+                body: article.body,
+            });
+        }        
+    });
+    
+});
+
 const port = 3000;
 app.listen(port, () => {
     console.log(`Now listening to port: ${port}`);
