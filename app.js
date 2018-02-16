@@ -63,15 +63,21 @@ app.get('/article/:id', function(req, res) {
     Article.findById(req.params.id, function(err, article) {
         if (err) {
             console.log(err);
-        } else {            
+        } else {        
             res.render('article', {
                 title: article.title,
                 author: article.author,
                 body: article.body,
+                id: article.id
             });
         }        
     });
     
+});
+
+app.get('/article/edit/:id', function(req, res) {
+    console.log(req.params.id);
+    res.render('edit_article');
 });
 
 const port = 3000;
