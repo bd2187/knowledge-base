@@ -70,14 +70,42 @@ app.get('/article/:id', function(req, res) {
                 body: article.body,
                 id: article.id
             });
-        }        
+        }
     });
     
 });
 
 app.get('/article/edit/:id', function(req, res) {
-    console.log(req.params.id);
-    res.render('edit_article');
+    
+    Article.findById(req.params.id, function(err, article) {
+        if (err) {
+            console.log(err);
+
+        } else {
+            res.render('edit_article', {
+                title: article.title,
+                author: article.author,
+                body: article.body,
+                id: article.id
+            });
+        }
+    });    
+});
+
+app.post('/article/edit/:id', function(req, res) {
+   
+    var article = {};
+    article.title = req.body.title;
+    article.author = req.body.author;
+    article.body = req.body.body;
+
+    Article.update(
+        { _id: req.params.id },
+        article,
+        function(err, response) {        
+        res.redirect('/');
+    });
+    
 });
 
 const port = 3000;
