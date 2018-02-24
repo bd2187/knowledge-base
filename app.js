@@ -27,9 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Express Session Middleware
 app.use(session({
     secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    resave: true,
+    saveUninitialized: true
 }));
 
 // Connect-Flash & Express-Messages Middleware
@@ -91,7 +90,16 @@ app.post('/article/add', function(req, res) {
     });
 
     newArticle.save(function(err, response) {
-        return (err) ? console.log(err) : res.redirect('/');        
+        if (err) {
+
+            console.log(err);
+
+        } else {
+
+            req.flash('success', 'Article Added!');
+            res.redirect('/');
+
+        }
     });
 });
 
@@ -138,7 +146,8 @@ app.post('/article/edit/:id', function(req, res) {
     Article.update(
         { _id: req.params.id },
         article,
-        function(err, response) {        
+        function(err, response) {
+        req.flash('success', 'Article Updated!');        
         res.redirect('/');
     });
     

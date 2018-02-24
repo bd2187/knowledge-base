@@ -21,6 +21,7 @@ html(lang="en")
                     span.sr-only (current)
                 a.nav-item.nav-link(href='/article/add') Add Article
         .container
+            != messages('message', locals)
             block content
             footer
                 script(src="/javascript/main.js")
