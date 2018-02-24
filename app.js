@@ -1,7 +1,10 @@
-const path = require('path');
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
+const path              = require('path');
+const express           = require('express');
+const app               = express();
+const bodyParser        = require('body-parser');
+const session           = require('express-session');
+const expressValidator  = require('express-validator');
+const connectFlash      = require('connect-flash');
 
 // Connect to DB
 const mongoose = require('mongoose');
@@ -20,6 +23,39 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set public folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Express Session Middleware
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
+
+// Connect-Flash & Express-Messages Middleware
+app.use(connectFlash());
+app.use(function(req, res, next) {
+    res.locals.messages = require('express-messages')(req, res);
+    next();
+});
+
+// Express Validator Middleware
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
+
+        while(namespace.length) {
+        formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+        param : formParam,
+        msg   : msg,
+        value : value
+        };
+    }
+}));
 
 // Set up View Engine Middleware
 app.set('views', path.join(__dirname, 'views'));
