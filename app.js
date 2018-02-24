@@ -83,24 +83,44 @@ app.get('/article/add', function(req, res) {
 
 app.post('/article/add', function(req, res) {
 
-    var newArticle = new Article({
-        title: req.body.title,
-        author: req.body.author,
-        body: req.body.body
-    });
+    req.checkBody('title', 'Title is required').notEmpty();
+    req.checkBody('author', 'Author is required').notEmpty();
+    req.checkBody('body', 'Body is required').notEmpty();
 
-    newArticle.save(function(err, response) {
-        if (err) {
+    // Get Errors
+    var errors = req.validationErrors();
+    
+    if (errors) {
+        
+        errors.forEach(function(err) {
+            req.flash('danger', err.msg);
+        });
+        
+        res.render('add_article', { title: 'Add Article', errors});
 
-            console.log(err);
+    } else {
 
-        } else {
+        var newArticle = new Article({
+            title: req.body.title,
+            author: req.body.author,
+            body: req.body.body
+        });
+    
+        newArticle.save(function(err, response) {
+            if (err) {
+    
+                console.log(err);
+    
+            } else {
+    
+                req.flash('success', 'Article Added!');
+                res.redirect('/');
+    
+            }
+        });
+    }
 
-            req.flash('success', 'Article Added!');
-            res.redirect('/');
 
-        }
-    });
 });
 
 app.get('/article/:id', function(req, res) {
@@ -160,6 +180,7 @@ app.delete('/article/delete/:id', function(req, res) {
         if (err) {
             console.log(err);
         } else {
+            req.flash('success', 'Article Deleted!');        
             res.send('success');
         }
 
