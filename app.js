@@ -5,7 +5,7 @@ const bodyParser        = require('body-parser');
 const session           = require('express-session');
 const expressValidator  = require('express-validator');
 const connectFlash      = require('connect-flash');
-const articleRoutes            = require('./routes/articles');
+const articleRoutes     = require('./routes/articles');
 
 // Connect to DB
 const mongoose = require('mongoose');
