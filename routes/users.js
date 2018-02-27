@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+
 
 const User = require('../models/user');
 
@@ -9,7 +11,7 @@ router.get('/register', function(req, res) {
 
 router.post('/register', function(req, res) {
     
-    const { name, email, username, password, passwordTwo } = req.body;    
+    let { name, email, username, password, passwordTwo } = req.body;    
 
     req.checkBody('name', 'Name is required').notEmpty();
     req.checkBody('name', 'Email is required').notEmpty();
@@ -39,20 +41,43 @@ router.post('/register', function(req, res) {
             passwordTwo
         });
 
-        newUser.save(function(err, response) {
+        // Hash Password
+        var salt = bcrypt.genSalt(10, function(err, salt) {
 
-            if (err) {
+            bcrypt.hash(password, salt, function(err, hash) {
 
-                console.log(err);
+                if (err) {
 
-            } else {
+                    console.log(err);
 
-                req.flash('success', 'Saved username!');
-                res.redirect('/');
+                } else {
 
-            }
+                    // Change value of password to hash
+                    password = hash;
+
+                    // Save to DB
+                    newUser.save(function(err, response) {
+
+                        if (err) {
+
+                            console.log(err);
+                            return;
+
+                        } else {
+
+                            req.flash('success', 'Saved username!');
+                            res.redirect('/users/login');
+
+                        }
+
+                    });
+
+                }
+
+            });
 
         });
+
     }
 
     res.redirect('/users/register');
