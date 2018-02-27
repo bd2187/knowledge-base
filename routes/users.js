@@ -9,6 +9,10 @@ router.get('/register', function(req, res) {
     res.render('register');
 });
 
+router.get('/login', function(req, res) {
+    res.render('login');
+});
+
 router.post('/register', function(req, res) {
     
     let { name, email, username, password, passwordTwo } = req.body;    
