@@ -18,10 +18,10 @@ router.post('/register', function(req, res) {
     let { name, email, username, password, passwordTwo } = req.body;    
 
     req.checkBody('name', 'Name is required').notEmpty();
-    req.checkBody('name', 'Email is required').notEmpty();
-    req.checkBody('name', 'Username is required').notEmpty();
-    req.checkBody('name', 'Password is required').notEmpty();
-    req.checkBody('name', 'Password does not match').notEmpty().equals(req.body.password);
+    req.checkBody('email', 'Email is required').notEmpty();
+    req.checkBody('username', 'Username is required').notEmpty();
+    req.checkBody('password', 'Password is required').notEmpty();
+    req.checkBody('passwordTwo', 'Password does not match').equals(req.body.password);
 
     // Get Errors
     var errors = req.validationErrors();
@@ -36,15 +36,6 @@ router.post('/register', function(req, res) {
 
     } else {
 
-        // Save User to DB
-        var newUser = new User ({
-            name,
-            email,
-            username,
-            password,
-            passwordTwo
-        });
-
         // Hash Password
         var salt = bcrypt.genSalt(10, function(err, salt) {
 
@@ -56,9 +47,14 @@ router.post('/register', function(req, res) {
 
                 } else {
 
-                    // Change value of password to hash
-                    password = hash;
-
+                    // Save User to DB
+                    var newUser = new User ({
+                        name,
+                        email,
+                        username,
+                        password: hash
+                    });
+                    
                     // Save to DB
                     newUser.save(function(err, response) {
 
@@ -69,7 +65,7 @@ router.post('/register', function(req, res) {
 
                         } else {
 
-                            req.flash('success', 'Saved username!');
+                            req.flash('success', 'Saved username! You can now login.');
                             res.redirect('/users/login');
 
                         }
@@ -83,8 +79,6 @@ router.post('/register', function(req, res) {
         });
 
     }
-
-    res.redirect('/users/register');
 });
 
 module.exports = router;
