@@ -6,6 +6,7 @@ const session           = require('express-session');
 const expressValidator  = require('express-validator');
 const connectFlash      = require('connect-flash');
 const articleRoutes     = require('./routes/articles');
+const userRoutes        = require('./routes/users');
 
 // Connect to DB
 const mongoose = require('mongoose');
@@ -47,12 +48,12 @@ app.use(expressValidator({
         , formParam = root;
 
         while(namespace.length) {
-        formParam += '[' + namespace.shift() + ']';
+            formParam += '[' + namespace.shift() + ']';
         }
         return {
-        param : formParam,
-        msg   : msg,
-        value : value
+            param : formParam,
+            msg   : msg,
+            value : value
         };
     }
 }));
@@ -77,6 +78,7 @@ app.get('/', function(req, res) {
 });
 
 app.use('/article', articleRoutes);
+app.use('/users', userRoutes);
 
 const port = 3000;
 app.listen(port, () => {

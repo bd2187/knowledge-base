@@ -10,7 +10,7 @@ router.get('/add', function(req, res) {
 });
 
 router.post('/add', function(req, res) {
-
+    
     req.checkBody('title', 'Title is required').notEmpty();
     req.checkBody('author', 'Author is required').notEmpty();
     req.checkBody('body', 'Body is required').notEmpty();
@@ -84,7 +84,7 @@ router.get('/edit/:id', function(req, res) {
 });
 
 router.post('/edit/:id', function(req, res) {
-   
+
     var article = {};
     article.title = req.body.title;
     article.author = req.body.author;

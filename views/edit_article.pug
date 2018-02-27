@@ -3,13 +3,13 @@ extends layout.pug
 block content
     h1 Edit
     form(method="post" action=`/article/edit/${id}`)
-        #form-group
+        .form-group
             label(for="title") Title:
             input.form-control(type="text" name="title" id="title" value= title)
-        #form-group   
+        .form-group   
             label(for="author") Author:
             input.form-control(type="text" name="author" id="author" value= author)
-        #form-group
+        .form-group
             label(for="body") Body:
             input.form-control(type="textarea" name="body" id="body" value= body)
             br
