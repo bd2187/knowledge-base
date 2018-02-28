@@ -7,11 +7,11 @@ const expressValidator  = require('express-validator');
 const connectFlash      = require('connect-flash');
 const articleRoutes     = require('./routes/articles');
 const userRoutes        = require('./routes/users');
+const config            = require('./config/database');
 
 // Connect to DB
 const mongoose = require('mongoose');
-const DATABASE = require('./constants').DATABASE;
-mongoose.connect(DATABASE);
+mongoose.connect(config.DATABASE);
 const db = mongoose.connection;
 db.on('error', (err) => { console.log(err) });
 db.once('open', () => { console.log('DB connected') });
