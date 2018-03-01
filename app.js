@@ -8,6 +8,7 @@ const connectFlash      = require('connect-flash');
 const articleRoutes     = require('./routes/articles');
 const userRoutes        = require('./routes/users');
 const config            = require('./config/database');
+const passport          = require('passport');
 
 // Connect to DB
 const mongoose = require('mongoose');
@@ -57,6 +58,13 @@ app.use(expressValidator({
         };
     }
 }));
+
+// Passport Config
+require('./config/passport')(passport);
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Set up View Engine Middleware
 app.set('views', path.join(__dirname, 'views'));
