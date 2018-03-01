@@ -2,7 +2,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 
-module.exports = function(passport, username, password) {
+module.exports = function(passport) {
 
     // LocalStrategy
     passport.use(new LocalStrategy(
@@ -14,12 +14,12 @@ module.exports = function(passport, username, password) {
                 // Check for errors
                 if (err) {
                     console.log(err);
-                    return;
+                    return done(err);
                 }
 
                 // If user doesn't exist
                 if (!user) {
-                    return done(null, false, { messge: 'Incorrect username.' });
+                    return done(null, false, { message: 'Incorrect username.' });
                 }
 
                 // Match Password
@@ -47,7 +47,6 @@ module.exports = function(passport, username, password) {
 
                 passport.serializeUser(function(user, done) {
                     done(null, user.id);
-                    
                 });
 
                 passport.deserializeUser(function(id, done) {

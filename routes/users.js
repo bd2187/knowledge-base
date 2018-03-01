@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 const User = require('../models/user');
 
@@ -12,29 +13,33 @@ router.get('/login', function(req, res) {
     res.render('login');
 });
 
-router.post('/login', function(req, res) {
+router.post('/login', function(req, res, next) {
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next); 
+    // let { username, password } = req.body;
 
-    let { username, password } = req.body;
+    // req.checkBody('username', 'Username is required').notEmpty();
+    // req.checkBody('password', 'Password is required').notEmpty();
 
-    req.checkBody('username', 'Username is required').notEmpty();
-    req.checkBody('password', 'Password is required').notEmpty();
+    // // Get Errors
+    // var errors = req.validationErrors();
 
-    // Get Errors
-    var errors = req.validationErrors();
+    // if (errors) {
 
-    if (errors) {
+    //     errors.forEach(function(err) {
+    //         req.flash('danger', err.msg);
+    //     });
 
-        errors.forEach(function(err) {
-            req.flash('danger', err.msg);
-        });
-
-        res.render('login');
+    //     res.render('login');
         
-    } else {
+    // } else {
 
-        res.redirect('/');
 
-    }
+
+    // }
 
     
 });
