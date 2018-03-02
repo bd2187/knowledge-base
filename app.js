@@ -66,6 +66,14 @@ require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set up global variable. Req.user = signed in user
+app.get('*', function(req, res, next) {
+
+    res.locals.user = req.user || null;
+    console.log(res.locals.user);
+    next();
+});
+
 // Set up View Engine Middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
