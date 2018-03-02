@@ -19,29 +19,6 @@ router.post('/login', function(req, res, next) {
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next); 
-    // let { username, password } = req.body;
-
-    // req.checkBody('username', 'Username is required').notEmpty();
-    // req.checkBody('password', 'Password is required').notEmpty();
-
-    // // Get Errors
-    // var errors = req.validationErrors();
-
-    // if (errors) {
-
-    //     errors.forEach(function(err) {
-    //         req.flash('danger', err.msg);
-    //     });
-
-    //     res.render('login');
-        
-    // } else {
-
-
-
-    // }
-
-    
 });
 
 router.post('/register', function(req, res) {

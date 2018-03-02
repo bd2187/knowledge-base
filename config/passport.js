@@ -6,11 +6,9 @@ module.exports = function(passport) {
 
     // LocalStrategy
     passport.use(new LocalStrategy(
-
         function(username, password, done) {
-
             User.findOne({ username }, function(err, user) {
-
+                
                 // Check for errors
                 if (err) {
                     console.log(err);
@@ -30,19 +28,7 @@ module.exports = function(passport) {
                         return;
                     }
 
-                    if (res) {
-
-                        // If no errors, return user
-                        return done(null, user);
-
-                    } else {
-
-                        // If password is incorrect
-                        if (!user.validPassword(password)) {
-                            return done(null, false, { message: 'Incorrect password' });
-                        }
-
-                    }
+                    return (res) ? done(null, user) : done(null, false, { message: 'Incorrect password' });
                 });
 
                 passport.serializeUser(function(user, done) {
