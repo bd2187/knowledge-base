@@ -68,9 +68,7 @@ app.use(passport.session());
 
 // Set up global variable. Req.user = signed in user
 app.get('*', function(req, res, next) {
-
     res.locals.user = req.user || null;
-    console.log(res.locals.user);
     next();
 });
 
