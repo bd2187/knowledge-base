@@ -78,8 +78,16 @@ app.set('view engine', 'pug');
 
 // Home Route
 app.get('/', function(req, res) {
+    
+    let query;
 
-    Article.find({}, function(err, response) {
+    try {
+        query = {user_id: req.user._id};
+    } catch(e) {
+        query = {};
+    }
+
+    Article.find(query, function(err, response) {
         if (err) {
             console.log(err);
         } else {
