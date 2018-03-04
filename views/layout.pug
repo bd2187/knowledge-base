@@ -17,10 +17,16 @@ html(lang="en")
             a.navbar-brand(href='/') KnowledgeBase
             #navbarNavAltMarkup.collapse.navbar-collapse
                 .navbar-nav
-                a.nav-item.nav-link.active(href='/')
-                    | Home 
-                    span.sr-only (current)
-                a.nav-item.nav-link(href='/article/add') Add Article
+                if user
+                    a.nav-item.nav-link.active(href='/')
+                        | #{user.username} 
+                        span.sr-only (current)
+                else
+                    a.nav-item.nav-link.active(href='/')
+                        | Home 
+                        span.sr-only (current)
+                if user
+                    a.nav-item.nav-link(href='/article/add') Add Article
                 if !user
                     a.nav-item.nav-link(href='/users/login') Login
                     a.nav-item.nav-link(href='/users/register') Create Account
