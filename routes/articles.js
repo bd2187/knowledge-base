@@ -31,7 +31,8 @@ router.post('/add', function(req, res) {
         var newArticle = new Article({
             title: req.body.title,
             author: req.user.username,
-            body: req.body.body
+            body: req.body.body,
+            user_id: req.user._id
         });
     
         newArticle.save(function(err, response) {
@@ -73,7 +74,8 @@ router.get('/edit/:id', function(req, res) {
                 title: article.title,
                 author: article.author,
                 body: article.body,
-                id: article.id
+                id: article.id,
+                user_id: req.user._id
             });
         }
     });    
