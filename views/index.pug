@@ -3,7 +3,18 @@ extends layout
 block content
     h1 Articles
     ul.list-group
-        each article in articles
-            li.list-group-item
-                a(href="/article/" + article._id)= article.title
+        if !user
+            div.index-container
+                a(href="/users/login") Login
+                p or
+                a(href="/users/register") Create Account
+        else if articles.length > 0 && user
+            each article in articles
+                li.list-group-item
+                    a(href="/article/" + article._id)= article.title
+        else
+            div.index-container
+                p You have no articles
+
+
         
