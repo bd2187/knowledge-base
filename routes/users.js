@@ -13,6 +13,11 @@ router.get('/login', function(req, res) {
     res.render('login');
 });
 
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', {
         successRedirect: '/',
