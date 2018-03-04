@@ -85,8 +85,9 @@ router.post('/edit/:id', function(req, res) {
 
     var article = {};
     article.title = req.body.title;
-    article.author = req.body.author;
+    article.author = req.user.username;
     article.body = req.body.body;
+    
 
     Article.update(
         { _id: req.params.id },
