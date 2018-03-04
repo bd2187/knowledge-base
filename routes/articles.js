@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Article = require('../models/article');
 
-router.get('/add', function(req, res) {
+router.get('/add', function(req, res) {    
     res.render('add_article', {
         title: 'Add Article'
     });
@@ -12,7 +12,7 @@ router.get('/add', function(req, res) {
 router.post('/add', function(req, res) {
     
     req.checkBody('title', 'Title is required').notEmpty();
-    req.checkBody('author', 'Author is required').notEmpty();
+    // req.checkBody('author', 'Author is required').notEmpty();
     req.checkBody('body', 'Body is required').notEmpty();
 
     // Get Errors
@@ -30,20 +30,16 @@ router.post('/add', function(req, res) {
 
         var newArticle = new Article({
             title: req.body.title,
-            author: req.body.author,
+            author: req.user.username,
             body: req.body.body
         });
     
         newArticle.save(function(err, response) {
-            if (err) {
-    
+            if (err) {    
                 console.log(err);
-    
-            } else {
-    
+            } else {    
                 req.flash('success', 'Article Added!');
                 res.redirect('/');
-    
             }
         });
     }

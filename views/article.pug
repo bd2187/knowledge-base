@@ -3,7 +3,7 @@ extends layout
 block content
     h1 #{title}
     p #{body}
-    p #{author}
+    p - #{author}
     hr
     a.btn.btn-default(href='/article/edit/' + id) Edit
     a(href=`/article/${id}`)
