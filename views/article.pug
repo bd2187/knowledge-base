@@ -5,6 +5,7 @@ block content
     p #{body}
     p - #{author}
     hr
-    a.btn.btn-default(href='/article/edit/' + id) Edit
-    a(href=`/article/${id}`)
-    a.btn.btn-danger.delete-article(href="#", data-id=id) Delete
+    if user
+        a.btn.btn-default(href='/article/edit/' + id) Edit
+        a(href=`/article/${id}`)
+        a.btn.btn-danger.delete-article(href="#", data-id=id) Delete
