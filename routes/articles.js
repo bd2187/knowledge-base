@@ -56,7 +56,8 @@ router.get('/:id', function(req, res) {
                 title: article.title,
                 author: article.author,
                 body: article.body,
-                id: article.id
+                id: article.id,
+                user_id: article.user_id
             });
         }
     });
