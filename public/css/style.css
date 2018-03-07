@@ -27,3 +27,8 @@ p {
 .index-container a:hover {
     text-decoration: none;
 }
+
+.content {
+    min-height: 100vh;
+    margin-top: 1em;
+}

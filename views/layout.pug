@@ -32,7 +32,7 @@ html(lang="en")
                     a.nav-item.nav-link(href='/users/register') Create Account
                 else
                     a.nav-item.nav-link(href='/users/logout') Logout
-        .container
+        .container.content
             != messages('message', locals)
             block content
             footer
