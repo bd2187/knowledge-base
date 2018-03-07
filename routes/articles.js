@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Article = require('../models/article');
 
-router.get('/add', function(req, res) {    
+router.get('/add', ensureAuthentication, function(req, res) {    
     res.render('add_article', {
         title: 'Add Article'
     });
@@ -63,7 +63,7 @@ router.get('/:id', function(req, res) {
     
 });
 
-router.get('/edit/:id', function(req, res) {
+router.get('/edit/:id', ensureAuthentication, function(req, res) {
     
     Article.findById(req.params.id, function(err, article) {
         if (err) {
@@ -98,6 +98,15 @@ router.post('/edit/:id', function(req, res) {
     });
     
 });
+
+function ensureAuthentication(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        req.flash('danger', 'Login Required');
+        res.redirect('/users/login');
+    }
+}
 
 router.delete('/delete/:id', function(req, res) {
 
